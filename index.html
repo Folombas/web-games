@@ -3,53 +3,104 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Крестики-нолики · Web Games</title>
-  <meta name="description" content="Крестики-нолики на современном веб-стеке: ES-модули, идеальный минимакс-ИИ, анимации, звук и автосохранение счёта." />
+  <title>Web Games — коллекция мини-игр</title>
+  <meta name="description" content="Лобби коллекции веб-игр: крестики-нолики с непобедимым ИИ и школьная классика «Точки». Без установки и регистрации." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🎮</text></svg>" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="app">
     <header class="app__header">
-      <span class="app__badge">web-games · игра №1</span>
-      <h1 class="app__title">Крестики-нолики</h1>
-      <p class="app__subtitle">Классика на современной веб-платформе: ES-модули, идеальный минимакс-ИИ, анимации и автосохранение счёта</p>
+      <span class="app__badge">folombas · web-games</span>
+      <h1 class="app__title">🎮 Web Games</h1>
+      <p class="app__subtitle">Мини-игры, в которые можно играть прямо в браузере: без установки, регистрации и даже без интернета после первой загрузки</p>
     </header>
 
-    <section class="panel controls" aria-label="Настройки игры">
-      <div class="segmented" role="group" aria-label="Режим игры">
-        <button type="button" class="segmented__btn is-active" data-mode="pvp">Два игрока</button>
-        <button type="button" class="segmented__btn" data-mode="ai">Против ИИ</button>
+    <section class="cards" aria-label="Игры коллекции">
+      <a class="card card--playable" href="tic-tac-toe/">
+        <div class="card__preview">
+          <svg viewBox="0 0 120 120" class="preview-svg" aria-hidden="true">
+            <line x1="40" y1="10" x2="40" y2="110" stroke="rgba(255,255,255,0.18)" stroke-width="4" stroke-linecap="round"/>
+            <line x1="80" y1="10" x2="80" y2="110" stroke="rgba(255,255,255,0.18)" stroke-width="4" stroke-linecap="round"/>
+            <line x1="10" y1="40" x2="110" y2="40" stroke="rgba(255,255,255,0.18)" stroke-width="4" stroke-linecap="round"/>
+            <line x1="10" y1="80" x2="110" y2="80" stroke="rgba(255,255,255,0.18)" stroke-width="4" stroke-linecap="round"/>
+            <g stroke="#ff6b81" stroke-width="5" stroke-linecap="round">
+              <line x1="12" y1="12" x2="30" y2="30"/>
+              <line x1="30" y1="12" x2="12" y2="30"/>
+            </g>
+            <circle cx="60" cy="60" r="11" stroke="#4dd4ac" stroke-width="5" fill="none"/>
+            <g stroke="#ff6b81" stroke-width="5" stroke-linecap="round">
+              <line x1="92" y1="92" x2="108" y2="108"/>
+              <line x1="108" y1="92" x2="92" y2="108"/>
+            </g>
+          </svg>
+        </div>
+        <h2 class="card__title">Крестики-нолики</h2>
+        <p class="card__desc">Вечная классика с непобедимым ИИ на минимаксе, градиентными SVG-фишками и автосохранением счёта.</p>
+        <ul class="card__tags"><li>Против ИИ</li><li>На двоих</li><li>Стили фишек</li></ul>
+        <span class="card__cta">Играть →</span>
+      </a>
+
+      <a class="card card--playable" href="dots/">
+        <div class="card__preview">
+          <svg viewBox="0 0 120 120" class="preview-svg" aria-hidden="true">
+            <rect x="47" y="47" width="26" height="26" rx="5" fill="rgba(124,156,255,0.30)"/>
+            <g stroke="#7c9cff" stroke-width="5" stroke-linecap="round">
+              <line x1="46" y1="46" x2="72" y2="46"/>
+              <line x1="46" y1="72" x2="72" y2="72"/>
+              <line x1="46" y1="46" x2="46" y2="72"/>
+              <line x1="72" y1="46" x2="72" y2="72"/>
+            </g>
+            <g stroke="#4dd4ac" stroke-width="5" stroke-linecap="round">
+              <line x1="98" y1="20" x2="98" y2="46"/>
+              <line x1="20" y1="98" x2="46" y2="98"/>
+            </g>
+            <g fill="#9aa3c7">
+              <circle cx="20" cy="20" r="4"/><circle cx="46" cy="20" r="4"/><circle cx="72" cy="20" r="4"/><circle cx="98" cy="20" r="4"/>
+              <circle cx="20" cy="46" r="4"/><circle cx="46" cy="46" r="4"/><circle cx="72" cy="46" r="4"/><circle cx="98" cy="46" r="4"/>
+              <circle cx="20" cy="72" r="4"/><circle cx="46" cy="72" r="4"/><circle cx="72" cy="72" r="4"/><circle cx="98" cy="72" r="4"/>
+              <circle cx="20" cy="98" r="4"/><circle cx="46" cy="98" r="4"/><circle cx="72" cy="98" r="4"/><circle cx="98" cy="98" r="4"/>
+            </g>
+          </svg>
+        </div>
+        <h2 class="card__title">Точки</h2>
+        <p class="card__desc">Школьная классика на листе в клеточку: соединяй точки, замыкай клетки и забирай их себе. Захватил — ходи ещё!</p>
+        <ul class="card__tags"><li>Против ИИ</li><li>На двоих</li><li>Как в школе</li></ul>
+        <span class="card__cta">Играть →</span>
+      </a>
+
+      <div class="card card--soon">
+        <div class="card__preview"><span class="soon-emoji">🐍</span></div>
+        <h2 class="card__title">Змейка</h2>
+        <p class="card__desc">Растёт, ест, не врезается в хвост.</p>
+        <span class="card__soon-badge">Скоро</span>
       </div>
-      <label class="difficulty">
-        <span>Сложность ИИ</span>
-        <select id="difficulty">
-          <option value="easy">Новичок</option>
-          <option value="hard" selected>Гроссмейстер (минимакс)</option>
-        </select>
-      </label>
+
+      <div class="card card--soon">
+        <div class="card__preview"><span class="soon-emoji">🔢</span></div>
+        <h2 class="card__title">2048</h2>
+        <p class="card__desc">Сдвигай плитки и собирай заветное число.</p>
+        <span class="card__soon-badge">Скоро</span>
+      </div>
+
+      <div class="card card--soon">
+        <div class="card__preview"><span class="soon-emoji">🧱</span></div>
+        <h2 class="card__title">Тетрис</h2>
+        <p class="card__desc">Складывай фигуры, убирай линии.</p>
+        <span class="card__soon-badge">Скоро</span>
+      </div>
+
+      <div class="card card--soon">
+        <div class="card__preview"><span class="soon-emoji">💣</span></div>
+        <h2 class="card__title">Сапёр</h2>
+        <p class="card__desc">Логика, флажки и немного нервов.</p>
+        <span class="card__soon-badge">Скоро</span>
+      </div>
     </section>
-
-    <section class="scoreboard" aria-label="Счёт">
-      <div class="score-card score-card--x"><span class="score-card__label">Игрок X</span><span class="score-card__value" id="scoreX">0</span></div>
-      <div class="score-card"><span class="score-card__label">Ничьи</span><span class="score-card__value" id="scoreDraw">0</span></div>
-      <div class="score-card score-card--o"><span class="score-card__label" id="scoreOLabel">Игрок O</span><span class="score-card__value" id="scoreO">0</span></div>
-    </section>
-
-    <p class="status" id="status" role="status" aria-live="polite">Ход: Игрок X</p>
-
-    <div class="board" id="board" role="grid" aria-label="Игровое поле 3 на 3"></div>
-
-    <div class="actions">
-      <button type="button" class="btn btn--primary" id="newRound">Новый раунд</button>
-      <button type="button" class="btn" id="resetScore">Сбросить счёт</button>
-      <button type="button" class="btn" id="soundToggle" aria-pressed="true">🔊 Звук</button>
-    </div>
 
     <footer class="app__footer">
-      <p>Коллекция <strong>web-games</strong> · <a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/Folombas/FinFocus">FinFocus</a></p>
+      <p><a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/Folombas/FinFocus">FinFocus</a> — там про деньги, если захочется сменить игру на пользу 😄</p>
     </footer>
   </main>
-  <script type="module" src="game.js"></script>
 </body>
 </html>
