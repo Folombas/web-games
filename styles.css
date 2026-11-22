@@ -72,15 +72,19 @@ body {
 .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 420px; margin: 0 auto 24px; }
 .cell {
   aspect-ratio: 1; border-radius: 16px; background: var(--panel); border: 1px solid var(--border);
-  font-size: clamp(36px, 10vw, 56px); font-weight: 700; color: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;
   transition: transform 0.15s, background 0.2s; -webkit-tap-highlight-color: transparent;
 }
 .cell:hover:not(.is-filled) { transform: translateY(-2px); background: rgba(255, 255, 255, 0.1); }
 .cell.is-filled { cursor: default; }
 .cell--x { color: var(--x); }
 .cell--o { color: var(--o); }
-.cell span { display: inline-block; animation: pop 0.25s ease; }
 .cell.is-win { animation: winGlow 1.2s ease-in-out infinite alternate; border-color: currentColor; }
+
+// SVG-фишки: градиентный крестик и кольцо нолика со свечением.
+.mark { width: 64%; height: 64%; display: block; animation: pop 0.25s ease; }
+.mark--x { filter: drop-shadow(0 0 12px rgba(255, 107, 129, 0.45)); }
+.mark--o { filter: drop-shadow(0 0 12px rgba(77, 212, 172, 0.4)); }
 
 .board.is-thinking .cell { pointer-events: none; }
 .board.is-thinking { opacity: 0.85; }

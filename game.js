@@ -1,7 +1,32 @@
 import { bestMove, evaluate } from "./ai.js";
 
 const STORAGE_KEY = "web-games.tictactoe.v1";
-const MARKS = { X: "✕", O: "◯" };
+
+// Векторные фишки вместо текстовых символов: рендерятся одинаково
+// в любом браузере и мгновенно масштабируются.
+const MARKS = {
+  X: '<svg class="mark mark--x" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="grad-x" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ff6b81"/>
+        <stop offset="1" stop-color="#ff9f43"/>
+      </linearGradient>
+    </defs>
+    <g stroke="url(#grad-x)" stroke-width="11" stroke-linecap="round" fill="none">
+      <path d="M24 24 L76 76"/>
+      <path d="M76 24 L24 76"/>
+    </g>
+  </svg>',
+  O: '<svg class="mark mark--o" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="grad-o" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#4dd4ac"/>
+        <stop offset="1" stop-color="#7c9cff"/>
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="28" stroke="url(#grad-o)" stroke-width="11" fill="none"/>
+  </svg>',
+};
 
 const els = {
   board: document.getElementById("board"),
@@ -195,9 +220,7 @@ function newRound(rotateStarter) {
 function renderCell(i) {
   const cell = cells[i];
   cell.classList.add("is-filled", "cell--" + state.board[i]);
-  const mark = document.createElement("span");
-  mark.textContent = MARKS[state.board[i]];
-  cell.appendChild(mark);
+  cell.innerHTML = MARKS[state.board[i]];
 }
 
 // ---------- Настройки ----------
