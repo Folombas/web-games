@@ -81,7 +81,7 @@ body {
 .cell--o { color: var(--o); }
 .cell.is-win { animation: winGlow 1.2s ease-in-out infinite alternate; border-color: currentColor; }
 
-// SVG-фишки: градиентный крестик и кольцо нолика со свечением.
+/* SVG-фишки: градиентный крестик и кольцо нолика со свечением. */
 .mark { width: 64%; height: 64%; display: block; animation: pop 0.25s ease; }
 .mark--x { filter: drop-shadow(0 0 12px rgba(255, 107, 129, 0.45)); }
 .mark--o { filter: drop-shadow(0 0 12px rgba(77, 212, 172, 0.4)); }
