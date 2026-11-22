@@ -30,4 +30,3 @@ jobs:
         uses: actions/deploy-pages@v4
 
 # Сайт: https://folombas.github.io/web-games/
-# Деплой идёт из default-ветки (main).
