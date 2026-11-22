@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Крестики-нолики · Web Games</title>
+  <meta name="description" content="Крестики-нолики на современном веб-стеке: ES-модули, идеальный минимакс-ИИ, анимации, звук и автосохранение счёта." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🎮</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <a class="back-link" href="../">← В лобби</a>
+      <span class="app__badge">web-games · игра №1</span>
+      <h1 class="app__title">Крестики-нолики</h1>
+      <p class="app__subtitle">Классика на современной веб-платформе: ES-модули, идеальный минимакс-ИИ, анимации и автосохранение счёта</p>
+    </header>
+
+    <section class="panel controls" aria-label="Настройки игры">
+      <div class="segmented" role="group" aria-label="Режим игры">
+        <button type="button" class="segmented__btn is-active" data-mode="pvp">Два игрока</button>
+        <button type="button" class="segmented__btn" data-mode="ai">Против ИИ</button>
+      </div>
+      <label class="difficulty">
+        <span>Сложность ИИ</span>
+        <select id="difficulty">
+          <option value="easy">Новичок</option>
+          <option value="hard" selected>Гроссмейстер (минимакс)</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="scoreboard" aria-label="Счёт">
+      <div class="score-card score-card--x"><span class="score-card__label">Игрок X</span><span class="score-card__value" id="scoreX">0</span></div>
+      <div class="score-card"><span class="score-card__label">Ничьи</span><span class="score-card__value" id="scoreDraw">0</span></div>
+      <div class="score-card score-card--o"><span class="score-card__label" id="scoreOLabel">Игрок O</span><span class="score-card__value" id="scoreO">0</span></div>
+    </section>
+
+    <p class="status" id="status" role="status" aria-live="polite">Ход: Игрок X</p>
+
+    <div class="board" id="board" role="grid" aria-label="Игровое поле 3 на 3"></div>
+
+    <div class="actions">
+      <button type="button" class="btn btn--primary" id="newRound">Новый раунд</button>
+      <button type="button" class="btn" id="resetScore">Сбросить счёт</button>
+      <button type="button" class="btn" id="soundToggle" aria-pressed="true">🔊 Звук</button>
+    </div>
+
+    <footer class="app__footer">
+      <p>Коллекция <a href="../">web-games</a> · <a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/Folombas/FinFocus">FinFocus</a></p>
+    </footer>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
