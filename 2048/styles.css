@@ -50,11 +50,8 @@ body {
 }
 .cell-bg {
   position: absolute; width: 22%; height: 22%;
-  transform: translate(calc(100% + 4%), 0);
+  background: var(--inset); border-radius: 8px;
 }
-.grid-bg { position: absolute; inset: 2.5%; }
-.grid-bg::before { content: ""; }
-.cell-bg { background: var(--inset); border-radius: 8px; }
 
 .tile {
   position: absolute; width: 22%; height: 22%;
@@ -78,7 +75,6 @@ body {
 .btn--primary { background: var(--accent-2); border-color: transparent; color: #0b0e1a; font-weight: 700; }
 .btn:hover { filter: brightness(1.15); }
 .btn:focus-visible, .back-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.btn:focus-visible, .tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .app__footer { margin-top: 28px; color: var(--muted); font-size: 14px; }
 .app__footer a { color: var(--accent-2); }
