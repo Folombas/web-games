@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Тетрис · Web Games</title>
+  <meta name="description" content="Тетрис в браузере: семь фигур, вращение, превью следующей, очки за 1–4 линии и нарастающая скорость. Стрелки, Space и P — всё управление." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🎮</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app" id="main">
+    <header class="app__header">
+      <a class="back-link" href="../">← В лобби</a>
+      <span class="app__badge">web-games · игра №5</span>
+      <h1 class="app__title">Тетрис</h1>
+      <p class="app__subtitle">Складывай фигуры, убирай линии. ←/→ — движение, ↑ — поворот, ↓ — мягкое падение, Space — сброс, P — пауза</p>
+    </header>
+
+    <section class="scoreboard" aria-label="Счёт">
+      <div class="score-card"><span class="score-card__label">Очки</span><span class="score-card__value" id="score">0</span></div>
+      <div class="score-card"><span class="score-card__label">Линии</span><span class="score-card__value" id="lines">0</span></div>
+      <div class="score-card score-card--accent"><span class="score-card__label">Рекорд</span><span class="score-card__value" id="best">0</span></div>
+    </section>
+
+    <p class="status" id="status" role="status" aria-live="polite">Игра идёт</p>
+
+    <div class="tetris-row">
+      <div class="board-wrap"><canvas id="game" width="220" height="440" aria-label="Игровое поле тетриса, 10 на 20"></canvas></div>
+      <div class="side">
+        <p class="side__label">Далее</p>
+        <canvas id="preview" width="96" height="96" aria-label="Следующая фигура"></canvas>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn--primary" id="pauseBtn">⏸ Пауза</button>
+      <button type="button" class="btn" id="restartBtn">🔄 Заново</button>
+    </div>
+
+    <footer class="app__footer">
+      <p>Коллекция <a href="../">web-games</a> · <a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/Folombas/FinFocus">FinFocus</a></p>
+    </footer>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
