@@ -1,5 +1,7 @@
 'use strict';
 
+import { loadBest, saveBest, onSwipe, randomInt } from '../js/core.js';
+
 /* Змейка: canvas-рендер, стрелки/WASD, свайпы, пауза (Space), рестарт (R), рекорд в localStorage. */
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -15,7 +17,7 @@ const BEST_KEY = 'wg-snake-best';
 
 const state = {
   snake: [], dir: { x: 1, y: 0 }, queue: [], food: null,
-  score: 0, best: Number(localStorage.getItem(BEST_KEY)) || 0,
+  score: 0, best: loadBest(BEST_KEY),
   running: false, paused: false, ateFood: false,
 };
 
@@ -24,8 +26,8 @@ function status(text) { statusEl.textContent = text; }
 function spawnFood() {
   while (true) {
     const food = {
-      x: Math.floor(Math.random() * GRID),
-      y: Math.floor(Math.random() * GRID),
+      x: randomInt(GRID),
+      y: randomInt(GRID),
     };
     if (!state.snake.some((s) => s.x === food.x && s.y === food.y)) return food;
   }
@@ -60,7 +62,7 @@ function step() {
     state.running = false;
     if (state.score > state.best) {
       state.best = state.score;
-      localStorage.setItem(BEST_KEY, String(state.best));
+      saveBest(BEST_KEY, state.best);
     }
     bestEl.textContent = String(state.best);
     status('Игра окончена. Рекорд: ' + state.best + '. Нажми R, чтобы заново');
@@ -143,19 +145,10 @@ window.addEventListener('keydown', (e) => {
 });
 
 // Свайпы на мобильных
-let touchStart = null;
-window.addEventListener('touchstart', (e) => {
-  touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-}, { passive: true });
-window.addEventListener('touchmove', (e) => {
-  if (!touchStart) return;
-  const dx = e.touches[0].clientX - touchStart.x;
-  const dy = e.touches[0].clientY - touchStart.y;
-  if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return;
+onSwipe((dx, dy) => {
   if (Math.abs(dx) > Math.abs(dy)) turn(dx > 0 ? 1 : -1, 0);
   else turn(0, dy > 0 ? 1 : -1);
-  touchStart = null;
-}, { passive: true });
+});
 
 pauseBtn.addEventListener('click', togglePause);
 restartBtn.addEventListener('click', reset);

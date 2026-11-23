@@ -1,5 +1,7 @@
 'use strict';
 
+import { loadNumber, saveBest, onSwipe, randomInt } from '../js/core.js';
+
 /* 2048: классические правила, стрелки/WASD + свайпы, счёт и рекорд в localStorage. */
 const boardEl = document.getElementById('board');
 const statusEl = document.getElementById('status');
@@ -20,11 +22,11 @@ const COLORS = {
 };
 
 function status(t) { statusEl.textContent = t; }
-function loadScores() { best = Number(localStorage.getItem(K('best'))) || 0; }
+function loadScores() { best = loadNumber(K('best'), 0); }
 function saveScore() {
   localStorage.setItem(K('score'), String(score));
   if (score > best) best = score;
-  localStorage.setItem(K('best'), String(best));
+  saveBest(K('best'), best);
 }
 
 function posOf(r, c) { return 'translate(' + (c * 26 + 2.5) + '%, ' + (r * 26 + 2.5) + '%)'; }
@@ -70,7 +72,7 @@ function freeCells() {
 function addRandomTile() {
   const free = freeCells();
   if (!free.length) return;
-  const [r, c] = free[Math.floor(Math.random() * free.length)];
+  const [r, c] = free[randomInt(free.length)];
   grid[r][c] = makeNewTile(r, c, Math.random() < 0.9 ? 2 : 4, 'new');
 }
 
@@ -180,15 +182,9 @@ window.addEventListener('keydown', (e) => {
   if (e.code in KEY_DIR) { e.preventDefault(); doMove(DIRS[KEY_DIR[e.code]]); }
 });
 
-let ts = null;
-window.addEventListener('touchstart', (e) => { ts = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }, { passive: true });
-window.addEventListener('touchmove', (e) => {
-  if (!ts) return;
-  const dx = e.touches[0].clientX - ts.x, dy = e.touches[0].clientY - ts.y;
-  if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return;
+onSwipe((dx, dy) => {
   doMove(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? DIRS[3] : DIRS[2]) : (dy > 0 ? DIRS[1] : DIRS[0]));
-  ts = null;
-}, { passive: true });
+});
 
 newGameBtn.addEventListener('click', restart);
 drawBg();

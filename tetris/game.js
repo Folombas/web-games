@@ -1,5 +1,7 @@
 'use strict';
 
+import { loadBest, saveBest, randomInt } from '../js/core.js';
+
 /* Тетрис: 7 фигур, вращение, превью, очки 100/300/500/800, нарастающая скорость. */
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -30,7 +32,7 @@ const LINE_SCORE = [0, 100, 300, 500, 800];
 let field = [];
 let piece = null;
 let nextName = null;
-let score = 0, lines = 0, best = Number(localStorage.getItem(BEST_KEY)) || 0;
+let score = 0, lines = 0, best = loadBest(BEST_KEY);
 let running = false, paused = false, timer = null;
 
 function status(t) { statusEl.textContent = t; }
@@ -53,8 +55,8 @@ function collide(cells, r0, c0) {
 }
 
 function spawn() {
-  const name = nextName || NAMES[Math.floor(Math.random() * NAMES.length)];
-  nextName = NAMES[Math.floor(Math.random() * NAMES.length)];
+  const name = nextName || NAMES[randomInt(NAMES.length)];
+  nextName = NAMES[randomInt(NAMES.length)];
   piece = { name, cells: SHAPES[name].cells, r: -1, c: Math.floor((COLS - 4) / 2) + 1 };
   drawPreview();
   if (collide(piece.cells, piece.r + 1, piece.c)) { gameOver(); return; }
@@ -80,7 +82,7 @@ function lock() {
     lines += cleared;
     scoreEl.textContent = String(score);
     linesEl.textContent = String(lines);
-    if (score > best) { best = score; localStorage.setItem(BEST_KEY, String(best)); bestEl.textContent = String(best); }
+    if (score > best) { best = score; saveBest(BEST_KEY, best); bestEl.textContent = String(best); }
     status(cleared >= 4 ? '🎮 Тетрис! +' + LINE_SCORE[4] : '+' + LINE_SCORE[cleared]);
     restartTimer();
   }
@@ -141,7 +143,7 @@ function drawPreview() {
 function gameOver() {
   running = false;
   clearTimeout(timer);
-  if (score > best) { best = score; localStorage.setItem(BEST_KEY, String(best)); bestEl.textContent = String(best); }
+  if (score > best) { best = score; saveBest(BEST_KEY, best); bestEl.textContent = String(best); }
   status('Игра окончена. Очки: ' + score + '. Нажми «Заново»');
   draw();
 }

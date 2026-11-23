@@ -1,5 +1,7 @@
 'use strict';
 
+import { loadNumber, randomInt } from '../js/core.js';
+
 /* Сапёр: первый клик безопасен, флажки (ПКМ/долгий тап/режим), таймер, рекорд в localStorage. */
 const boardEl = document.getElementById('board');
 const statusEl = document.getElementById('status');
@@ -53,8 +55,8 @@ function build() {
   clearInterval(tick);
   timerEl.textContent = '0';
   minesEl.textContent = String(MINES);
-  const best = localStorage.getItem(BEST_KEY);
-  bestEl.textContent = best ? Math.round(Number(best) / 1000) + ' с' : '—';
+  const best = loadNumber(BEST_KEY, null);
+  bestEl.textContent = best !== null ? Math.round(best / 1000) + ' с' : '—';
   status('Открой первую клетку');
 }
 
@@ -62,7 +64,7 @@ function placeMines(safe) {
   const banned = new Set([safe, ...neighbors(safe)]);
   let placed = 0;
   while (placed < MINES) {
-    const i = Math.floor(Math.random() * N * N);
+    const i = randomInt(N * N);
     if (banned.has(i) || cells[i].mine) continue;
     cells[i].mine = true;
     placed++;
@@ -139,7 +141,7 @@ function checkWin() {
   clearInterval(tick);
   cells.forEach((c, i) => { if (c.mine && !c.flag) { c.flag = true; flags++; paint(c, i); } });
   minesEl.textContent = '0';
-  const best = Number(localStorage.getItem(BEST_KEY)) || Infinity;
+  const best = loadNumber(BEST_KEY, Infinity);
   const elapsed = seconds * 1000;
   if (elapsed < best) {
     localStorage.setItem(BEST_KEY, String(elapsed));
