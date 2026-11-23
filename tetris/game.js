@@ -167,6 +167,7 @@ function togglePause() {
   paused = !paused;
   pauseBtn.textContent = paused ? '▶ Продолжить' : '⏸ Пауза';
   status(paused ? 'Пауза (P, чтобы продолжить)' : 'Игра идёт');
+  if (!paused) restartTimer();
 }
 
 window.addEventListener('keydown', (e) => {
