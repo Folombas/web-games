@@ -107,6 +107,9 @@ body {
 @media (max-width: 480px) {
   .controls { flex-direction: column; align-items: stretch; }
   .difficulty select { width: 100%; }
+  .app { padding: 24px 14px 40px; }
+  .score-card { padding: 10px 8px; }
+  .score-card__value { font-size: 22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
