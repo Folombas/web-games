@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Змейка · Web Games</title>
+  <meta name="description" content="Змейка на canvas: расти, ешь, не врезайся. Управление стрелками, WASD или свайпами, пауза на Space и рекорд в localStorage." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🎮</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app" id="main">
+    <header class="app__header">
+      <a class="back-link" href="../">← В лобби</a>
+      <span class="app__badge">web-games · игра №3</span>
+      <h1 class="app__title">Змейка</h1>
+      <p class="app__subtitle">Расти, ешь, не врезайся в стены и в себя. Управление: стрелки/WASD, свайпы на телефоне, Space — пауза, R — заново</p>
+    </header>
+
+    <section class="scoreboard" aria-label="Счёт">
+      <div class="score-card"><span class="score-card__label">Очки</span><span class="score-card__value" id="score">0</span></div>
+      <div class="score-card score-card--accent"><span class="score-card__label">Рекорд</span><span class="score-card__value" id="best">0</span></div>
+    </section>
+
+    <p class="status" id="status" role="status" aria-live="polite">Нажми любую стрелку или свайпни, чтобы начать</p>
+
+    <div class="board-wrap" id="boardWrap">
+      <canvas id="game" width="400" height="400" aria-label="Игровое поле змейки 20 на 20"></canvas>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn--primary" id="pauseBtn">⏸ Пауза</button>
+      <button type="button" class="btn" id="restartBtn">🔄 Заново</button>
+    </div>
+
+    <footer class="app__footer">
+      <p>Коллекция <a href="../">web-games</a> · <a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/FinFocus/FinFocus/FinFocus"></a></p>
+    </footer>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
