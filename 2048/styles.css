@@ -83,3 +83,12 @@ body {
 .app__footer { margin-top: 28px; color: var(--muted); font-size: 14px; }
 .app__footer a { color: var(--accent-2); }
 @media (max-width: 420px) { .app__title { font-size: 26px; } }
+
+.skip-link {
+  position: absolute; left: 16px; top: -56px; z-index: 100;
+  background: var(--accent); color: #0b1020; padding: 10px 16px;
+  border-radius: 12px; font-weight: 600; text-decoration: none; transition: top 0.2s;
+}
+.skip-link:not(:focus):not(:focus-visible) { top: -56px; }
+.skip-link:focus, .skip-link:focus-visible { top: 16px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
