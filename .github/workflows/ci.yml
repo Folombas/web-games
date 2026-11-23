@@ -19,13 +19,15 @@ jobs:
           tmp=$(mktemp -d)
           fail=0
           while IFS= read -r f; do
-            cp "$f" "$tmp/$(echo "$f" | tr '/' '_').mjs"
+            rel="${f#./}"
+            cp "$f" "$tmp/$(echo "$rel" | tr '/' '_').mjs"
           done < <(find . -name '*.js' -not -path './.git/*')
+          shopt -s nullglob
           for m in "$tmp"/*.mjs; do
             echo "checking $m"
             node --check "$m" || fail=1
           done
-          exit $fail
+          [ "$fail" -eq 0 ] || exit 1
 
       - name: HTML structure check (one body and one header per page)
         run: |
