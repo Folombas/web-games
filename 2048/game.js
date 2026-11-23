@@ -29,14 +29,32 @@ function saveScore() {
   saveBest(K('best'), best);
 }
 
-function posOf(r, c) { return 'translate(' + (c * 26 + 2.5) + '%, ' + (r * 26 + 2.5) + '%)'; }
+function saveState() {
+  const m = grid.map((row) => row.map((id) => (id ? tiles.get(id).v : 0)));
+  localStorage.setItem(K('state'), JSON.stringify({ m, score }));
+}
+
+function loadState() {
+  const raw = localStorage.getItem(K('state'));
+  if (!raw) return false;
+  let s;
+  try { s = JSON.parse(raw); } catch (e) { return false; }
+  if (!s || !Array.isArray(s.m) || s.m.length !== SIZE) return false;
+  tiles.clear();
+  grid = s.m.map((row, r) => row.map((v, c) => (v ? makeNewTile(r, c, Number(v)) : null)));
+  score = Number(s.score) || 0;
+  won = grid.some((row) => row.some((id) => id && tiles.get(id).v >= 2048));
+  return true;
+}
+
+function posOf(r, c) { return { left: (c * 26) + '%', top: (r * 26) + '%' }; }
 
 function drawBg() {
   boardEl.querySelectorAll('.cell-bg').forEach((x) => x.remove());
   for (let r = 0; r < SIZE; r++) for (let c = 0; c < SIZE; c++) {
     const bg = document.createElement('div');
     bg.className = 'cell-bg';
-    bg.style.transform = posOf(r, c);
+    Object.assign(bg.style, posOf(r, c));
     boardEl.appendChild(bg);
   }
 }
@@ -44,7 +62,7 @@ function drawBg() {
 function render() {
   for (const [id, t] of [...tiles]) {
     if (t.dead) { t.el.remove(); tiles.delete(id); continue; }
-    t.el.style.transform = posOf(t.r, t.c);
+    Object.assign(t.el.style, posOf(t.r, t.c));
     t.el.style.background = COLORS[t.v] || '#ff6b81';
     t.el.style.color = t.v >= 32 ? '#0b0e1a' : '#eef1ff';
     t.el.textContent = String(t.v);
@@ -56,7 +74,7 @@ function render() {
 function makeNewTile(r, c, v, cls) {
   const el = document.createElement('div');
   el.className = 'tile' + (cls ? ' ' + cls : '');
-  el.style.transform = posOf(r, c);
+  Object.assign(el.style, posOf(r, c));
   boardEl.appendChild(el);
   const id = ++idSeq;
   tiles.set(id, { v, r, c, el, dead: false });
@@ -79,6 +97,7 @@ function addRandomTile() {
 function restart() {
   tiles.forEach((t) => t.el.remove());
   tiles.clear();
+  localStorage.removeItem(K('state'));
   grid = Array.from({ length: SIZE }, () => Array(SIZE).fill(null));
   loadScores();
   score = 0;
@@ -86,6 +105,7 @@ function restart() {
   won = false;
   addRandomTile();
   addRandomTile();
+  saveState();
   status('Двигай плитки: стрелки, WASD или свайпы');
   render();
 }
@@ -163,7 +183,9 @@ function doMove(dir) {
   grid = placed;
 
   score += gained;
+  addRandomTile();
   saveScore();
+  saveState();
   render();
 
   if (!won && [...tiles.values()].some((t) => t.v >= 2048)) {
@@ -188,4 +210,13 @@ onSwipe((dx, dy) => {
 
 newGameBtn.addEventListener('click', restart);
 drawBg();
-restart();
+if (!loadState()) {
+  restart();
+} else {
+  render();
+  if (!freeCells().length && !canMerge()) {
+    status('Игра окончена. Очки: ' + score + '. Рекорд: ' + best);
+  } else {
+    status('Партия восстановлена. Очки: ' + score + '. Рекорд: ' + best);
+  }
+}
