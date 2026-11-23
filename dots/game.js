@@ -100,6 +100,7 @@ function point(r, c) {
 }
 
 const edgeLines = new Map();  // ключ ребра -> элемент линии
+const edgeHitEls = new Map(); // ключ ребра -> зона клика (для aria и фокуса)
 const boxFills = new Map();   // ключ клетки -> элемент закраски
 
 function make(elName, attrs) {
@@ -174,11 +175,35 @@ function buildBoard() {
       });
     }
     hit.dataset.edge = edge.key;
+    // Клавиатура: фокус + Enter/Space на ребре.
+    hit.setAttribute("tabindex", "0");
+    hit.setAttribute("role", "button");
+    edgeHitEls.set(edge.key, hit);
+    describeEdge(edge.key, false);
+    hit.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); tryHumanMove(edge.key); }
+    });
+    hit.addEventListener("focus", () => previewEdge(edge.key, true));
+    hit.addEventListener("blur", () => previewEdge(edge.key, false));
     hit.addEventListener("click", () => tryHumanMove(edge.key));
     hit.addEventListener("mouseenter", () => previewEdge(edge.key, true));
     hit.addEventListener("mouseleave", () => previewEdge(edge.key, false));
     els.board.appendChild(hit);
   }
+}
+
+function edgeName(key) {
+  const [type, r, c] = key.split("-");
+  const n1 = Number(r) + 1, n2 = Number(c) + 1;
+  return type === "h"
+    ? "Горизонтальная линия: ряд " + n1 + ", между точками " + n2 + " и " + (n2 + 1)
+    : "Вертикальная линия: столбец " + (n1 + 1) + ", между точками " + n1 + " и " + (n1 + 1);
+}
+function describeEdge(key, taken) {
+  const hit = edgeHitEls.get(key);
+  if (!hit) return;
+  hit.setAttribute("aria-label", edgeName(key) + (taken ? ", проведена" : ""));
+  if (taken) hit.setAttribute("aria-disabled", "true");
 }
 
 function previewEdge(key, on) {
@@ -201,12 +226,12 @@ function renderScores() {
   els.scoreFree.textContent = String(BOXES - state.boxOwner.size);
 }
 
-function updateStatus() {
+function updateStatus(captured) {
   if (!state.running) return;
   const who = state.mode === "ai"
     ? (state.current === 1 ? "Твой ход (Игрок 1)" : "ИИ обдумывает ход…")
     : "Ход: Игрок " + state.current;
-  els.status.textContent = who;
+  els.status.textContent = (captured ? "Захвачено клеток: " + captured + "! Ходи ещё раз. " : "") + who;
 }
 
 function tryHumanMove(key) {
@@ -217,6 +242,7 @@ function tryHumanMove(key) {
 
 function claim(key) {
   state.taken.add(key);
+  describeEdge(key, true);
   const line = edgeLines.get(key);
   line.classList.remove("edge-preview");
   line.style.stroke = "";
@@ -248,7 +274,7 @@ function claim(key) {
   } else {
     state.current = state.current === 1 ? 2 : 1;
   }
-  updateStatus();
+  updateStatus(captured);
 
   if (state.mode === "ai" && state.current === 2 && state.running) scheduleAi();
 }
@@ -291,6 +317,7 @@ function newRound() {
   els.boardWrap.classList.remove("is-over", "is-thinking");
   for (const line of edgeLines.values()) line.setAttribute("class", "edge-line");
   for (const fill of boxFills.values()) fill.setAttribute("class", "box-fill");
+  for (const key of edgeHitEls.keys()) describeEdge(key, false);
   renderScores();
   updateStatus();
 }
