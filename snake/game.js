@@ -24,13 +24,23 @@ const state = {
 function status(text) { statusEl.textContent = text; }
 
 function spawnFood() {
-  while (true) {
-    const food = {
-      x: randomInt(GRID),
-      y: randomInt(GRID),
-    };
-    if (!state.snake.some((s) => s.x === food.x && s.y === food.y)) return food;
+  const occupied = new Set(state.snake.map((cell) => cell.y * GRID + cell.x));
+  const free = [];
+  for (let i = 0; i < GRID * GRID; i++) if (!occupied.has(i)) free.push(i);
+  if (!free.length) {
+    state.food = null;
+    state.running = false;
+    if (state.score > state.best) {
+      state.best = state.score;
+      saveBest(BEST_KEY, state.best);
+    }
+    bestEl.textContent = String(state.best);
+    status('🏆 Поле заполнено полностью — идеальная игра! Рекорд: ' + state.best + '. Нажми R, чтобы заново');
+    draw();
+    return;
   }
+  const i = free[randomInt(free.length)];
+  state.food = { x: i % GRID, y: Math.floor(i / GRID) };
 }
 
 function reset() {
@@ -40,7 +50,7 @@ function reset() {
   state.score = 0;
   state.paused = false;
   state.running = false;
-  state.food = spawnFood();
+  spawnFood();
   bestEl.textContent = String(state.best);
   scoreEl.textContent = '0';
   status('Нажми стрелку/WASD или свайпни, чтобы начать');
@@ -73,7 +83,7 @@ function step() {
   if (ate) {
     state.score += 10;
     scoreEl.textContent = String(state.score);
-    state.food = spawnFood();
+    spawnFood();
   } else {
     state.snake.pop();
   }
