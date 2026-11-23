@@ -106,17 +106,20 @@ function draw(deadAt) {
     ctx.arc(state.food.x * 20 + 10, state.food.y * 20 + 10, 7, 0, Math.PI * 2);
     ctx.fill();
   }
+function rr(c2, x, y, w, h, rad) {
+  c2.beginPath();
+  if (c2.roundRect) c2.roundRect(x, y, w, h, rad); else c2.rect(x, y, w, h);
+}
+
   // змейка
   state.snake.forEach((s, i) => {
     ctx.fillStyle = i === 0 ? '#4dd4ac' : 'rgba(124,156,255,' + Math.max(0.35, 1 - i / state.snake.length) + ')';
-    ctx.beginPath();
-    ctx.roundRect(s.x * 20 + 2, s.y * 20 + 2, 16, 16, 5);
+    rr(ctx, s.x * 20 + 2, s.y * 20 + 2, 16, 16, 5);
     ctx.fill();
   });
   if (deadAt) {
     ctx.fillStyle = '#ff6b81';
-    ctx.beginPath();
-    ctx.roundRect(deadAt.x * 20 + 2, deadAt.y * 20 + 2, 16, 16, 5);
+    rr(ctx, deadAt.x * 20 + 2, deadAt.y * 20 + 2, 16, 16, 5);
     ctx.fill();
   }
 }

@@ -108,10 +108,14 @@ function tick() {
   }
 }
 
+function rr(c2, x, y, w, h, rad) {
+  c2.beginPath();
+  if (c2.roundRect) c2.roundRect(x, y, w, h, rad); else c2.rect(x, y, w, h);
+}
+
 function drawCell(c2, r, c, color) {
   c2.fillStyle = color;
-  c2.beginPath();
-  c2.roundRect(c * CELL + 1, r * CELL + 1, CELL - 2, CELL - 2, 4);
+  rr(c2, c * CELL + 1, r * CELL + 1, CELL - 2, CELL - 2, 4);
   c2.fill();
 }
 
@@ -134,8 +138,7 @@ function drawPreview() {
   const offR = (4 - maxR) / 2, offC = (4 - maxC) / 2;
   cells.forEach(([r, c]) => {
     pctx.fillStyle = SHAPES[nextName].color;
-    pctx.beginPath();
-    pctx.roundRect((offC + c) * 24 + 2, (offR + r) * 24 + 2, 20, 20, 4);
+    rr(pctx, (offC + c) * 24 + 2, (offR + r) * 24 + 2, 20, 20, 4);
     pctx.fill();
   });
 }
