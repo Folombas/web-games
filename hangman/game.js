@@ -11,7 +11,7 @@ const livesEl = document.getElementById('lives');
 const newBtn = document.getElementById('newGame');
 const parts = Array.from(document.querySelectorAll('.hang-part'));
 
-const ROWS = ['ЙЦУКЕНГШЩЗХЪ', 'ФЫВАПРОЛДЖЭ', 'ЯЧСМИТЬБЮ'];
+const ROWS = ['ЙЦУКЕНГШЩЗХЪ', 'ФЫВАПРОЛДЖЭ', 'ЯЧСМИТЬБЮЁ'];
 const MAX_WRONG = 6;
 
 let word = '';
