@@ -103,7 +103,7 @@ function buildBoard() {
     cell.type = "button";
     cell.className = "cell";
     cell.setAttribute("role", "gridcell");
-    cell.setAttribute("aria-label", "Клетка " + (i + 1));
+    cell.setAttribute("aria-label", "Клетка " + (i + 1) + ", пусто");
     cell.addEventListener("click", () => tryHumanMove(i));
     els.board.appendChild(cell);
     cells.push(cell);
@@ -190,6 +190,8 @@ function newRound(rotateStarter) {
   for (let i = 0; i < 9; i++) {
     cells[i].className = "cell";
     cells[i].innerHTML = "";
+    cells[i].removeAttribute("aria-disabled");
+    cells[i].setAttribute("aria-label", "Клетка " + (i + 1) + ", пусто");
   }
   updateStatus();
   if (state.mode === "ai" && state.current === "O") {
@@ -202,6 +204,8 @@ function renderCell(i) {
   const cell = cells[i];
   cell.classList.add("is-filled", "cell--" + state.board[i]);
   cell.innerHTML = MARKS[state.board[i]];
+  cell.setAttribute("aria-label", "Клетка " + (i + 1) + ", " + state.board[i]);
+  cell.setAttribute("aria-disabled", "true");
 }
 
 // ---------- Настройки ----------
