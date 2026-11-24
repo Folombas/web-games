@@ -40,8 +40,8 @@ body {
 .score-card__label { font-size: 12px; color: var(--muted); }
 .score-card__value { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .status { color: var(--accent-2); min-height: 1.5em; margin: 0 0 12px; }
-.board-wrap { display: inline-block; padding: 10px; border-radius: 18px; background: var(--panel); border: 1px solid rgba(154,163,199,0.25); }
-#board { display: grid; gap: 3px; }
+.board-wrap { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px; border-radius: 18px; background: var(--panel); border: 1px solid rgba(154,163,199,0.25); }
+#board { display: grid; gap: 3px; width: max-content; margin: 0 auto; }
 .ms-cell {
   width: var(--ms-cell); height: var(--ms-cell);
   font: 700 14px/1 system-ui, sans-serif;

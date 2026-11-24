@@ -12,10 +12,10 @@ const diffEl = document.getElementById('difficulty');
 const newGameBtn = document.getElementById('newGame');
 const flagModeBtn = document.getElementById('flagMode');
 
-const SIZES = { small: { n: 9, mines: 10, key: 'wg-mines-best-9' }, big: { n: 10, mines: 20, key: 'wg-mines-best-10' } };
+const SIZES = { s9: { n: 9, mines: 10, key: 'wg-mines-best-9' }, s16: { n: 16, mines: 40, key: 'wg-mines-best-16' }, s30: { n: 16, mines: 99, key: 'wg-mines-best-30' } };
 const NUM_COLORS = ['', '#7c9cff', '#4dd4ac', '#ffd166', '#ff9f6b', '#ff6b81', '#b296ff', '#ff96a6', '#c8d3f5'];
 
-let N = 9, MINES = 10, BEST_KEY = SIZES.small.key;
+let N = 9, MINES = 10, BEST_KEY = SIZES.s9.key;
 let cells = [];        // {mine, open, flag, near, el}
 let started = false, over = false;
 let flags = 0, opened = 0;
