@@ -49,17 +49,17 @@ body {
   border-radius: 16px; touch-action: none; overflow: hidden;
 }
 .cell-bg {
-  position: absolute; width: 22%; height: 22%;
+  position: absolute; width: 20%; height: 20%;
   background: var(--inset); border-radius: 8px;
 }
 
 .tile {
-  position: absolute; width: 22%; height: 22%;
-  transform: translate(0, 0); border-radius: 8px;
+  position: absolute; width: 20%; height: 20%;
+  border-radius: 8px;
   display: grid; place-items: center;
   font-weight: 800; font-size: clamp(16px, 6vw, 28px);
-  transition: transform 0.12s ease;
-  will-change: transform;
+  transition: left 0.12s ease, top 0.12s ease;
+  will-change: left, top;
 }
 .tile.merged { animation: pop 0.18s ease; }
 .tile.new { animation: appear 0.15s ease; }

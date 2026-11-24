@@ -47,7 +47,7 @@ function loadState() {
   return true;
 }
 
-function posOf(r, c) { return { left: (c * 26) + '%', top: (r * 26) + '%' }; }
+function posOf(r, c) { return { left: (2.5 + c * 25) + '%', top: (2.5 + r * 25) + '%' }; }
 
 function drawBg() {
   boardEl.querySelectorAll('.cell-bg').forEach((x) => x.remove());
