@@ -59,9 +59,9 @@ export function step(state) {
   }
 
   // правая ракетка (ИИ)
-  if (b.vx > 0 && b.x + BALL_R >= W - PAD_W - PAD_W + PAD_W && b.x + BALL_R <= W + 8 &&
+  if (b.vx > 0 && b.x + BALL_R >= W - PAD_W * 2 && b.x + BALL_R <= W + 8 &&
       b.y >= state.right.y - BALL_R && b.y <= state.right.y + PAD_H + BALL_R) {
-    b.x = W - PAD_W - BALL_R - PAD_W;
+    b.x = W - PAD_W * 2 - BALL_R;
     const speed = Math.min(MAX_SPEED, Math.abs(b.vx) * BOUNCE_GAIN + 0.4);
     const offset = (b.y - (state.right.y + PAD_H / 2)) / (PAD_H / 2);
     b.vx = -speed;
