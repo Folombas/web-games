@@ -18,6 +18,10 @@ jobs:
         run: |
           tmp=$(mktemp -d)
           fail=0
+          checked=0
+          js=$(find . -name '*.js' -not -path './.git/*' | wc -l)
+          echo "js files found: $js"
+          [ "$js" -gt 0 ] || { echo "vacuous pass: no js files found"; exit 1; }
           while IFS= read -r f; do
             rel="${f#./}"
             cp "$f" "$tmp/$(echo "$rel" | tr '/' '_').mjs"
@@ -26,11 +30,17 @@ jobs:
           for m in "$tmp"/*.mjs; do
             echo "checking $m"
             node --check "$m" || fail=1
+            checked=$((checked + 1))
           done
+          echo "js files checked: $checked"
+          [ "$checked" -gt 0 ] || { echo "vacuous pass: checked 0 js files"; exit 1; }
           [ "$fail" -eq 0 ] || exit 1
 
       - name: HTML structure check (one body and one header per page)
         run: |
+          htmls=$(find . -name '*.html' -not -path './.git/*' | wc -l)
+          echo "html files found: $htmls"
+          [ "$htmls" -gt 0 ] || { echo "vacuous pass: no html files found"; exit 1; }
           for f in $(find . -name '*.html' -not -path './.git/*'); do
             b=$(grep -c '<body' "$f"); h=$(grep -c '<header' "$f")
             echo "$f: body=$b header=$h"
