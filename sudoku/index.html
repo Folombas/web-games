@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Судоку · Web Games</title>
+  <meta name="description" content="Судоку с генератором на три уровня: ввод с клавиатуры или кнопками, подсветка конфликтов и проверка решения." />
+  <link rel="canonical" href="https://folombas.github.io/web-games/sudoku/" />
+  <meta property="og:title" content="Судоку · Web Games" />
+  <meta property="og:description" content="Судоку с генератором на три уровня: ввод с клавиатуры или кнопками, подсветка конфликтов и проверка решения." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://folombas.github.io/web-games/sudoku/" />
+  <link rel="icon" href="/web-games/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <main class="app" id="main">
+    <header class="app__header">
+      <a class="back-link" href="../">← В лобби</a>
+      <span class="app__badge">web-games · игра №10</span>
+      <h1 class="app__title">Судоку</h1>
+      <p class="app__subtitle">Заполни сетку 9×9 цифрами 1–9: в строке, столбце и блоке они не повторяются</p>
+    </header>
+
+    <section class="controls" aria-label="Управление">
+      <label class="level-label">Уровень
+        <select id="level" class="select">
+          <option value="easy">Легко</option>
+          <option value="medium">Средне</option>
+          <option value="hard">Сложно</option>
+        </select>
+      </label>
+      <button type="button" class="btn" id="newGame">🔄 Новая</button>
+    </section>
+
+    <p class="status" id="status" role="status" aria-live="polite">Выбирай клетку и вводи цифры</p>
+
+    <div class="sudoku" id="grid" tabindex="0" role="application"
+      aria-label="Поле судоку 9 на 9. Стрелки двигают выбор, цифры ставят значение, Backspace стирает."></div>
+
+    <div class="numpad" id="numpad" role="group" aria-label="Цифры для ввода"></div>
+
+    <footer class="app__footer">
+      <p>Коллекция <a href="../">web-games</a> · <a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/Folombas/FinFocus">FinFocus</a></p>
+    </footer>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>

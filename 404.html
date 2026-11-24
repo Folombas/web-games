@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>404 · Web Games</title>
+  <meta name="description" content="Страница не найдена. Вернись в лобби коллекции веб-игр." />
+  <link rel="icon" href="/web-games/favicon.svg" />
+  <link rel="stylesheet" href="/web-games/styles.css" />
+  <style>
+    .code-404 { font-size: clamp(64px, 14vw, 120px); font-weight: 800; margin: 24px 0 8px;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2, #7c9cff));
+      -webkit-background-clip: text; background-clip: text; color: transparent; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <main class="app" id="main" style="max-width: 640px;">
+    <header class="app__header">
+      <span class="app__badge">folombas · web-games</span>
+      <p class="code-404">404</p>
+      <h1 class="app__title" style="font-size: clamp(24px, 5vw, 34px);">Такой страницы нет</h1>
+      <p class="app__subtitle">Похоже, эта игра ещё не написана — или ссылка устарела. Давай вернёмся к тому, что уже работает.</p>
+    </header>
+
+    <section class="cards" aria-label="Доступные страницы">
+      <a class="card card--playable" href="/web-games/">
+        <h2 class="card__title">🏠 В лобби</h2>
+        <p class="card__desc">Все игры коллекции на одной странице.</p>
+        <span class="card__cta">Перейти →</span>
+      </a>
+      <a class="card card--playable" href="/web-games/snake/">
+        <h2 class="card__title">🐍 Змейка</h2>
+        <p class="card__desc">Расти, ешь, не врезайся в хвост.</p>
+        <span class="card__cta">Играть →</span>
+      </a>
+      <a class="card card--playable" href="/web-games/tetris/">
+        <h2 class="card__title">🧱 Тетрис</h2>
+        <p class="card__desc">Складывай фигуры, убирай линии.</p>
+        <span class="card__cta">Играть →</span>
+      </a>
+    </section>
+
+    <footer class="app__footer">
+      <p><a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/Folombas/FinFocus">FinFocus</a></p>
+    </footer>
+  </main>
+</body>
+</html>

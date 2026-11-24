@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Виселица · Web Games</title>
+  <meta name="description" content="Виселица на русском: угадывай слова по буквам, экранные клавиши и физическая клавиатура, рисованный человечек и счёт побед." />
+  <link rel="canonical" href="https://folombas.github.io/web-games/hangman/" />
+  <link rel="icon" href="/web-games/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <main class="app" id="main">
+    <header class="app__header">
+      <a class="back-link" href="../">← В лобби</a>
+      <span class="app__badge">web-games · игра №7</span>
+      <h1 class="app__title">Виселица</h1>
+      <p class="app__subtitle">Угадай русское слово по буквам. Шесть промахов - и человечек нарисован</p>
+    </header>
+
+    <section class="scoreboard" aria-label="Статус партии">
+      <div class="score-card"><span class="score-card__label">Попыток осталось</span><span class="score-card__value" id="lives">6</span></div>
+      <div class="score-card score-card--accent"><span class="score-card__label">Побед</span><span class="score-card__value" id="wins">0</span></div>
+    </section>
+
+    <p class="status" id="status" role="status" aria-live="polite">Угадай слово</p>
+
+    <div class="hang-row">
+      <div class="hang-board">
+        <svg viewBox="0 0 120 150" aria-hidden="true">
+          <g stroke="#9aa3c7" stroke-width="5" stroke-linecap="round">
+            <line x1="18" y1="128" x2="102" y2="128"/>
+            <line x1="32" y1="128" x2="32" y2="12"/>
+            <line x1="32" y1="12" x2="62" y2="12"/>
+            <line x1="62" y1="12" x2="62" y2="20"/>
+          </g>
+          <circle class="hang-part" cx="62" cy="32" r="11" fill="none" stroke="#ff6b81" stroke-width="5" style="display:none"/>
+          <g stroke="#ff6b81" stroke-width="5" stroke-linecap="round">
+            <line class="hang-part" x1="62" y1="43" x2="62" y2="88" style="display:none"/>
+            <line class="hang-part" x1="62" y1="52" x2="46" y2="70" style="display:none"/>
+            <line class="hang-part" x1="62" y1="52" x2="78" y2="70" style="display:none"/>
+            <line class="hang-part" x1="62" y1="88" x2="49" y2="112" style="display:none"/>
+            <line class="hang-part" x1="62" y1="88" x2="75" y2="112" style="display:none"/>
+          </g>
+        </svg>
+      </div>
+      <div class="word" id="word" aria-hidden="true"></div>
+    </div>
+
+    <div class="keyboard" id="keyboard" role="group" aria-label="Русская клавиатура"></div>
+
+    <div class="actions">
+      <button type="button" class="btn btn--primary" id="newGame">🔄 Новое слово</button>
+    </div>
+
+    <footer class="app__footer">
+      <p>Коллекция <a href="../">web-games</a> · <a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/Folombas/FinFocus">FinFocus</a></p>
+    </footer>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>

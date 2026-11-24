@@ -1,0 +1,49 @@
+name: sanity
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: JS syntax check (node --check, copies as .mjs)
+        run: |
+          tmp=$(mktemp -d)
+          fail=0
+          checked=0
+          js=$(find . -name '*.js' -not -path './.git/*' | wc -l)
+          echo "js files found: $js"
+          [ "$js" -gt 0 ] || { echo "vacuous pass: no js files found"; exit 1; }
+          while IFS= read -r f; do
+            rel="${f#./}"
+            cp "$f" "$tmp/$(echo "$rel" | tr '/' '_').mjs"
+          done < <(find . -name '*.js' -not -path './.git/*')
+          shopt -s nullglob
+          for m in "$tmp"/*.mjs; do
+            echo "checking $m"
+            node --check "$m" || fail=1
+            checked=$((checked + 1))
+          done
+          echo "js files checked: $checked"
+          [ "$checked" -gt 0 ] || { echo "vacuous pass: checked 0 js files"; exit 1; }
+          [ "$fail" -eq 0 ] || exit 1
+
+      - name: HTML structure check (one body and one header per page)
+        run: |
+          htmls=$(find . -name '*.html' -not -path './.git/*' | wc -l)
+          echo "html files found: $htmls"
+          [ "$htmls" -gt 0 ] || { echo "vacuous pass: no html files found"; exit 1; }
+          for f in $(find . -name '*.html' -not -path './.git/*'); do
+            b=$(grep -c '<body' "$f"); h=$(grep -c '<header' "$f")
+            echo "$f: body=$b header=$h"
+            [ "$b" -eq 1 ] || exit 1
+            [ "$h" -eq 1 ] || exit 1
+          done

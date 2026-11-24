@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2048 · Web Games</title>
+  <meta name="description" content="Классическая 2048: двигай плитки стрелками или свайпами, сливай числа и набирай очки. Текущий счёт и рекорд сохраняются в браузере." />
+  <link rel="canonical" href="https://folombas.github.io/web-games/2048/" />
+  <link rel="icon" href="/web-games/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <main class="app" id="main">
+    <header class="app__header">
+      <a class="back-link" href="../">← В лобби</a>
+      <span class="app__badge">web-games · игра №4</span>
+      <h1 class="app__title">2048</h1>
+      <p class="app__subtitle">Двигай плитки, сливай одинаковые числа и доберись до 2048. Стрелки/WASD или свайпы</p>
+    </header>
+
+    <section class="scoreboard" aria-label="Счёт">
+      <div class="score-card"><span class="score-card__label">Очки</span><span class="score-card__value" id="score">0</span></div>
+      <div class="score-card score-card--accent"><span class="score-card__label">Рекорд</span><span class="score-card__value" id="best">0</span></div>
+    </section>
+
+    <p class="status" id="status" role="status" aria-live="polite">Двигай плитки: стрелки, WASD или свайпы</p>
+
+    <div class="board" id="board" role="grid" aria-label="Поле 2048, 4 на 4"></div>
+
+    <div class="actions">
+      <button type="button" class="btn btn--primary" id="newGame">🔄 Новая игра</button>
+    </div>
+
+    <footer class="app__footer">
+      <p>Коллекция <a href="../">web-games</a> · <a href="https://github.com/Folombas/web-games">GitHub</a> · сестринский проект <a href="https://github.com/Folombas/FinFocus">FinFocus</a></p>
+    </footer>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
