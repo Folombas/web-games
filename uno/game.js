@@ -175,3 +175,13 @@ el.deckBtn.addEventListener('click', humanDraw);
 el.passBtn.addEventListener('click', doPass);
 say('Твой ход!');
 render();
+
+// Горячие клавиши: D — взять, P — пас, N — новая партия (работают и в русской раскладке).
+document.addEventListener('keydown', (e) => {
+  if (e.repeat) return;
+  const k = e.key.toLowerCase();
+  if (k === 'n' || k === 'т') { restart(); return; }
+  if (!el.colorModal.hidden || !el.resultModal.hidden) return;
+  if (k === 'd' || k === 'в') humanDraw();
+  else if ((k === 'p' || k === 'з') && !el.passBtn.hidden) doPass();
+});
