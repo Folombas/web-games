@@ -197,7 +197,7 @@ function edgeName(key) {
   const n1 = Number(r) + 1, n2 = Number(c) + 1;
   return type === "h"
     ? "Горизонтальная линия: ряд " + n1 + ", между точками " + n2 + " и " + (n2 + 1)
-    : "Вертикальная линия: столбец " + (n1 + 1) + ", между точками " + n1 + " и " + (n1 + 1);
+    : "Вертикальная линия: столбец " + n2 + ", между точками " + n1 + " и " + (n1 + 1);
 }
 function describeEdge(key, taken) {
   const hit = edgeHitEls.get(key);
