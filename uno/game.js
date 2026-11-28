@@ -79,6 +79,7 @@ function finish() {
   if (S.winner === null) return false;
   busy = false;
   const won = S.winner === 0;
+  if (won) sound.win(); else sound.lose();
   if (won) { stats.w++; saveBest('uno.wins', stats.w); } else { stats.l++; saveBest('uno.losses', stats.l); }
   el.resultTitle.textContent = won ? '🎉 Победа!' : '😔 Поражение';
   el.resultText.textContent = won ? 'Ты сбросил все карты первым. Красиво!' : 'ИИ оказался быстрее. Реванш?';
@@ -94,6 +95,7 @@ function scheduleAi(prefix) {
   setTimeout(aiStep, 700 + Math.floor(Math.random() * 300));
 }
 function afterMove(msg) {
+  sound.play();
   render();
   if (finish()) return;
   if (S.turn === 1) scheduleAi(msg);
@@ -111,6 +113,7 @@ function humanPlay(cardId) {
 function humanDraw() {
   if (S.turn !== 0 || busy || S.drawn !== null || S.winner !== null) return;
   const got = drawCards(S, 0, 1);
+  sound.draw();
   if (got.length === 0) { say('Колода пуста.'); doPass(); return; }
   S.drawn = got[0].id;
   if (canPlay(got[0], S, S.hands[0])) {
@@ -129,6 +132,7 @@ function doPass() {
   scheduleAi('Ты пасуешь.');
 }
 function playAiMove(m) {
+  sound.play();
   const r = applyMove(S, 1, m.cardId, m.color);
   let msg = 'ИИ сыграл: ' + cardName(r.card);
   if (!r.card.color) msg += ', цвет — ' + COLOR_NAMES[r.color].toLowerCase();
@@ -143,6 +147,7 @@ function aiStep() {
   const move = aiChooseMove(S);
   if (move) { playAiMove(move); return; }
   const got = drawCards(S, 1, 1);
+  sound.draw();
   say('ИИ берёт карту…');
   render();
   setTimeout(() => {
@@ -185,3 +190,44 @@ document.addEventListener('keydown', (e) => {
   if (k === 'd' || k === 'в') humanDraw();
   else if ((k === 'p' || k === 'з') && !el.passBtn.hidden) doPass();
 });
+
+// Звуки через Web Audio API + кнопка mute (настройка сохраняется).
+const sound = (() => {
+  let ctx = null;
+  let on = loadNumber('uno.sound', 1) === 1;
+  function tone(freq, dur, type, delay) {
+    if (!on) return;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      ctx = ctx || new Ctx();
+      const t = ctx.currentTime + (delay || 0);
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type || 'triangle';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.15, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(t); osc.stop(t + dur);
+    } catch (e) { /* аудио недоступно — играем молча */ }
+  }
+  return {
+    play: () => tone(520, 0.09),
+    draw: () => tone(300, 0.1, 'sine'),
+    win: () => { tone(523, 0.15); tone(659, 0.15, 'triangle', 0.14); tone(784, 0.3, 'triangle', 0.28); },
+    lose: () => tone(220, 0.35, 'sine'),
+    toggle: () => { on = !on; saveBest('uno.sound', on ? 1 : 0); return on; },
+    isOn: () => on,
+  };
+})();
+const soundBtn = document.createElement('button');
+soundBtn.type = 'button';
+soundBtn.className = 'btn';
+function reflectSound() {
+  soundBtn.textContent = sound.isOn() ? '🔊 Звук' : '🔇 Без звука';
+  soundBtn.setAttribute('aria-pressed', String(sound.isOn()));
+}
+soundBtn.addEventListener('click', () => { sound.toggle(); reflectSound(); });
+reflectSound();
+document.querySelector('.actions').appendChild(soundBtn);
