@@ -270,3 +270,10 @@ renderScores();
 newRound(false);
 // Доступность: озвучиваем смену статуса скринридером.
 els.status.setAttribute('aria-live', 'polite');
+
+// Горячая клавиша N — новый раунд (работает и в русской раскладке: Т).
+window.addEventListener('keydown', (e) => {
+  if (e.repeat) return;
+  const k = e.key.toLowerCase();
+  if (k === 'n' || k === 'т') newRound(true);
+});
