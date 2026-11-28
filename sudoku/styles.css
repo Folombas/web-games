@@ -91,3 +91,7 @@ body {
 .skip-link:not(:focus):not(:focus-visible) { top: -56px; }
 .skip-link:focus, .skip-link:focus-visible { top: 16px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Итерация 2: подсказка и подсветка одинаковых цифр. */
+.num--hint { width: auto; padding: 0 14px; }
+.cell.same { background: rgba(124, 156, 255, 0.18); }
