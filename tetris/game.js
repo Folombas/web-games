@@ -123,6 +123,18 @@ function draw() {
   ctx.fillStyle = '#0b0e1a';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   field.forEach((row, r) => row.forEach((color, c) => { if (color) drawCell(ctx, r, c, color); }));
+  if (piece && running && !paused) {
+    let gr = piece.r;
+    while (!collide(piece.cells, gr + 1, piece.c)) gr++;
+    if (gr !== piece.r) {
+      ctx.globalAlpha = 0.22;
+      piece.cells.forEach(([r, c]) => {
+        const nr = gr + r, nc = piece.c + c;
+        if (nr >= 0) drawCell(ctx, nr, nc, SHAPES[piece.name].color);
+      });
+      ctx.globalAlpha = 1;
+    }
+  }
   if (piece && running) piece.cells.forEach(([r, c]) => {
     const nr = piece.r + r, nc = piece.c + c;
     if (nr >= 0) drawCell(ctx, nr, nc, SHAPES[piece.name].color);
