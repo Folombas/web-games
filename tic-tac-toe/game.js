@@ -268,3 +268,5 @@ loadState();
 reflectSettings();
 renderScores();
 newRound(false);
+// Доступность: озвучиваем смену статуса скринридером.
+els.status.setAttribute('aria-live', 'polite');

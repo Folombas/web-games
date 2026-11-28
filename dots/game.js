@@ -368,3 +368,5 @@ buildBoard();
 loadSettings();
 reflectSettings();
 newRound();
+// Доступность: озвучиваем смену статуса скринридером.
+els.status.setAttribute('aria-live', 'polite');
