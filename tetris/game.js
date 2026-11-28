@@ -232,3 +232,11 @@ restartBtn.addEventListener('click', start);
 field = emptyField();
 draw();
 start();
+
+// Автопауза при потере фокуса вкладки.
+window.addEventListener('blur', () => {
+  if (running && !paused) togglePause();
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && running && !paused) togglePause();
+});
