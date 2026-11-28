@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uno · Web Games</title>
+  <meta name="description" content="Классическая карточная игра Uno против ИИ: цвета, цифры, Skip, Reverse, +2, Wild и Wild +4." />
+  <link rel="icon" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <main class="app uno" id="main">
+    <header class="topbar">
+      <a class="back" href="../">← В лобби</a>
+      <h1 class="topbar__title">🃏 Uno</h1>
+      <button class="btn" id="newGame" type="button">Новая партия</button>
+    </header>
+
+    <section class="side" id="aiSide" aria-label="Рука ИИ">
+      <div class="side__label">🤖 ИИ · карт: <span id="aiCount">7</span> <span class="uno-badge" id="aiUno" hidden>UNO!</span></div>
+      <div class="backs" id="aiHand"></div>
+    </section>
+
+    <section class="table" aria-label="Стол">
+      <button class="pile" id="deckBtn" type="button" aria-label="Взять карту из колоды">
+        <span class="cardback cardback--small">UNO</span>
+        <span class="pile__count" id="deckCount">93</span>
+      </button>
+      <div class="discard">
+        <img id="discardImg" src="assets/cards/R0.png" alt="" width="96" height="144" />
+        <span class="chip" id="colorChip">—</span>
+      </div>
+    </section>
+
+    <p class="status" id="status" role="status" aria-live="polite">Твой ход</p>
+
+    <div class="actions">
+      <button class="btn" id="drawBtn" type="button">Взять карту</button>
+      <button class="btn" id="passBtn" type="button" hidden>Пас →</button>
+    </div>
+
+    <section class="side" id="meSide" aria-label="Твоя рука">
+      <div class="side__label">🙂 Ты <span class="uno-badge" id="meUno" hidden>UNO!</span></div>
+      <div class="hand" id="hand"></div>
+    </section>
+
+    <p class="score">Победы: <b id="wins">0</b> · Поражения: <b id="losses">0</b></p>
+
+    <footer class="app__footer">
+      <p>Фан-проект, не аффилирован с Mattel. UNO® — товарный знак Mattel. Карты: public domain (<a href="assets/CREDITS.md">credits</a>).</p>
+    </footer>
+  </main>
+
+  <div class="overlay" id="colorModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Выбери цвет">
+      <h2>Выбери цвет</h2>
+      <div class="colors">
+        <button class="color color--R" data-color="R" type="button">Красный</button>
+        <button class="color color--B" data-color="B" type="button">Синий</button>
+        <button class="color color--G" data-color="G" type="button">Зелёный</button>
+        <button class="color color--Y" data-color="Y" type="button">Жёлтый</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="resultModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Результат партии">
+      <h2 id="resultTitle">🎉 Победа!</h2>
+      <p id="resultText"></p>
+      <button class="btn" id="againBtn" type="button">Сыграть ещё</button>
+    </div>
+  </div>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>
