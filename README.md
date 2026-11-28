@@ -6,7 +6,7 @@
 
 **https://folombas.github.io/web-games/**
 
-## 🕹 Игры (5)
+## 🕹 Игры (6)
 
 | Игра | Папка | Что внутри |
 |---|---|---|
@@ -32,6 +32,7 @@
 ├── dots/             # точки (core.js — правила поля, ai.js — ИИ)
 ├── snake/            # змейка (index.html, styles.css, game.js)
 ├── tetris/           # тетрис
+├── uno/              # Uno (core.js — движок и ИИ, assets/cards — карты)
 └── sudoku/           # судоку (core.js — генератор и валидатор)
 ```
 
@@ -59,7 +60,7 @@ Workflow `sanity` (`.github/workflows/ci.yml`) на каждый push и PR, с 
 - Web Audio API (крестики-нолики и точки) - короткие звуки без внешних файлов
 - Canvas: змейка, тетрис
 - localStorage: счёт и рекорды
-- ИИ: минимакс (крестики-нолики), эвристика (точки)
+- ИИ: минимакс (крестики-нолики), эвристика (точки, Uno)
 - GitHub Pages: автодеплой из `main` (`deploy-pages.yml`)
 
 ## 🗺 План
