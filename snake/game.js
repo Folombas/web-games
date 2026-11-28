@@ -170,3 +170,11 @@ onSwipe((dx, dy) => {
 pauseBtn.addEventListener('click', togglePause);
 restartBtn.addEventListener('click', reset);
 reset();
+
+// Автопауза: вкладка потеряла фокус — змейка не умирает за кадром.
+window.addEventListener('blur', () => {
+  if (state.running && !state.paused) togglePause();
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && state.running && !state.paused) togglePause();
+});
