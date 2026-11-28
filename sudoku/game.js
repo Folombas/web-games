@@ -37,6 +37,7 @@ function render() {
     el.classList.toggle('given', givens.has(i));
     el.classList.toggle('conflict', bad.has(i));
     el.classList.toggle('sel', i === sel);
+    el.classList.toggle('same', !!v && v === board[sel] && i !== sel);
     const base = cellName(i);
     const g = givens.has(i) ? ' дано' : '';
     el.setAttribute('aria-label', base + (v ? ', значение ' + v : ', пусто') + g
@@ -49,7 +50,7 @@ function afterMove() {
   const bad = conflicts(board).length;
   if (isComplete(board)) {
     if (matchesSolution(board, solution)) status('🏆 Решение верно! Судоку собрано');
-    else status('Сетка заполнена, но с решением не совпадает. где-то ошибка');
+    else status('Сетка заполнена, но с решением не совпадает. Где-то ошибка');
   } else if (bad) {
     status('Конфликтов: ' + bad + '. Красные клетки подсвечены');
   }
@@ -125,3 +126,21 @@ levelEl.addEventListener('change', () => newGame(levelEl.value));
 
 buildDom();
 newGame(levelEl.value);
+
+// Подсказка: открывает правильное значение выбранной клетки.
+let hintsUsed = 0;
+const hintBtn = document.createElement('button');
+hintBtn.type = 'button';
+hintBtn.className = 'num num--hint';
+hintBtn.textContent = '💡 Подсказка';
+hintBtn.setAttribute('aria-label', 'Подсказка: открыть значение выбранной клетки');
+hintBtn.addEventListener('click', () => {
+  if (givens.has(sel)) { status('Эта клетка уже дана — выбери пустую'); return; }
+  if (board[sel] === solution[sel]) { status('Здесь уже верно'); return; }
+  board[sel] = solution[sel];
+  hintsUsed += 1;
+  render();
+  status('Подсказка использована (' + hintsUsed + '). ' + cellName(sel) + ' = ' + solution[sel]);
+  afterMove();
+});
+numpad.appendChild(hintBtn);

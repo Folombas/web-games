@@ -18,7 +18,7 @@ const BEST_KEY = 'wg-snake-best';
 const state = {
   snake: [], dir: { x: 1, y: 0 }, queue: [], food: null,
   score: 0, best: loadBest(BEST_KEY),
-  running: false, paused: false, ateFood: false,
+  running: false, paused: false, over: false, ateFood: false,
 };
 
 function status(text) { statusEl.textContent = text; }
@@ -30,6 +30,7 @@ function spawnFood() {
   if (!free.length) {
     state.food = null;
     state.running = false;
+    state.over = true;
     if (state.score > state.best) {
       state.best = state.score;
       saveBest(BEST_KEY, state.best);
@@ -49,7 +50,9 @@ function reset() {
   state.queue = [];
   state.score = 0;
   state.paused = false;
+  state.over = false;
   state.running = false;
+  pauseBtn.textContent = '⏸ Пауза';
   spawnFood();
   bestEl.textContent = String(state.best);
   scoreEl.textContent = '0';
@@ -70,6 +73,7 @@ function step() {
   if (nh.x < 0 || nh.y < 0 || nh.x >= GRID || nh.y >= GRID ||
       body.some((s) => s.x === nh.x && s.y === nh.y)) {
     state.running = false;
+    state.over = true;
     if (state.score > state.best) {
       state.best = state.score;
       saveBest(BEST_KEY, state.best);
@@ -126,7 +130,7 @@ function rr(c2, x, y, w, h, rad) {
 
 function turn(x, y) {
   if (!state.running) {
-    if (!state.snake.length) reset();
+    if (state.over || !state.snake.length) reset();
     state.running = true;
     state.paused = false;
     status('Игра идёт');
@@ -166,3 +170,11 @@ onSwipe((dx, dy) => {
 pauseBtn.addEventListener('click', togglePause);
 restartBtn.addEventListener('click', reset);
 reset();
+
+// Автопауза: вкладка потеряла фокус — змейка не умирает за кадром.
+window.addEventListener('blur', () => {
+  if (state.running && !state.paused) togglePause();
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && state.running && !state.paused) togglePause();
+});
